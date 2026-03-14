@@ -25,7 +25,8 @@ export default function ConversationList() {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const res = await fetch("/api/patients");
+        const endpoint = process.env.NEXT_PUBLIC_PATIENTS_API_URL || "/api/patients";
+        const res = await fetch(endpoint);
         if (res.ok) {
           const data = await res.json();
           setPatients(data.patients);
