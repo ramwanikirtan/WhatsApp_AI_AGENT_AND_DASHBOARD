@@ -21,9 +21,9 @@ export default function MessageBubble({ content, direction, timestamp }: Message
     <div className={`flex w-full ${isInbound ? "justify-start" : "justify-end"} mb-2`}>
       <div className={`flex flex-col max-w-[70%] ${isInbound ? "items-start" : "items-end"}`}>
         <div
-          className={`px-[12px] py-[8px] rounded-[4px] whitespace-pre-wrap ${
+          className={`px-3 py-2 rounded-2xl whitespace-pre-wrap text-[13px] leading-relaxed shadow-sm ${
             isInbound
-              ? "bg-[#F3F4F6] text-[#111827]"
+              ? "bg-white text-slate-900 border border-slate-200"
               : "bg-agentBlue text-white"
           }`}
         >

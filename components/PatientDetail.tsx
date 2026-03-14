@@ -87,17 +87,17 @@ export default function PatientDetail() {
 
   if (!selectedPhone || !stats) {
     return (
-      <div className="h-full flex items-center justify-center text-gray-400 p-4text-center">
-        <p className="text-sm">Select a patient to view details</p>
+      <div className="h-full flex items-center justify-center text-gray-400 px-4 text-center">
+        <p className="text-sm">Select a patient on the left to see details here.</p>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col h-full bg-white">
-      <div className="p-4 border-b border-[#E5E7EB]">
-        <h2 className="font-bold text-[14px] uppercase tracking-wide text-gray-900">
-          Patient Details
+      <div className="p-4 border-b border-slate-200">
+        <h2 className="font-semibold text-[15px] tracking-tight text-gray-900">
+          Patient details
         </h2>
       </div>
 
@@ -105,7 +105,7 @@ export default function PatientDetail() {
         {/* Phone */}
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[16px] text-gray-900">
+            <span className="font-mono text-[15px] text-gray-900">
               {stats.phone}
             </span>
             <button 
