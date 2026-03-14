@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Forest & Ray Dental Clinic — WhatsApp AI Agent & Dashboard
 
-## Getting Started
+A production-ready solution featuring an AI-driven WhatsApp receptionist and a real-time provider dashboard. Built for Forest & Ray Dental Clinic to automate patient inquiries, triage emergencies, and manage appointment bookings.
 
-First, run the development server:
+## 🚀 Key Features
+
+- **24/7 AI Receptionist**: Powered by OpenAI `gpt-4o` with specialized dental knowledge.
+- **WhatsApp Integration**: Bi-directional communication using the Meta WhatsApp Cloud API.
+- **Smart Triage**: Automated emergency categorization (P1 to P4) for instant patient guidance.
+- **Real-Time Dashboard**: A high-performance 3-column UI for staff to monitor and supervise conversations.
+- **Patient Management**: Automatic intent classification (Booking, Pricing, Emergency, etc.) for every patient.
+- **Calendly Booking**: Seamless integration with scheduling services.
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript (Strict Mode)
+- **Database**: Supabase (PostgreSQL + Realtime)
+- **AI**: OpenAI API (`gpt-4o`)
+- **Styling**: Tailwind CSS
+- **Design System**: IBM Plex Fonts, minimal border-radius, premium medical aesthetic.
+
+## ⚙️ Setup Instructions
+
+### 1. Environment Variables
+Create a `.env.local` file in the root directory and populate it with the following keys:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# WhatsApp Cloud API
+WHATSAPP_PHONE_NUMBER_ID=your_phone_id
+WHATSAPP_ACCESS_TOKEN=your_token
+WHATSAPP_WEBHOOK_VERIFY_TOKEN=your_secret_token
+
+# Supabase
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Public keys for client-side hydration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+
+# OpenAI
+OPENAI_API_KEY=your_openai_key
+
+# Calendly
+CALENDLY_API_KEY=your_calendly_api_key
+CALENDLY_EVENT_URL=your_booking_url
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Database Schema
+Run the following SQL in your Supabase SQL Editor to initialize the message persistence and enable real-time updates:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sql
+-- Create the messages table
+CREATE TABLE IF NOT EXISTS messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_phone TEXT NOT NULL,
+  direction TEXT NOT NULL,
+  content TEXT NOT NULL,
+  intent TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-- Enable Realtime for the dashboard
+ALTER PUBLICATION supabase_realtime ADD TABLE messages;
+```
 
-## Learn More
+### 3. Installation & Running
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run the development server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The dashboard will be available at `http://localhost:3000/dashboard`.
 
-## Deploy on Vercel
+## 📈 Triage & Intent Mapping
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The AI automatically classifies messages into the following intents to help clinic staff prioritize:
+- `emergency`: Immediate attention required.
+- `booking_request`: Patient seeking an appointment.
+- `pricing_query`: Questions regarding treatment costs.
+- `post_care`: Questions after a procedure.
+- `insurance`: Coverage and payment inquiries.
+- `general`: Standard greeting or clinic information.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔒 Security & Performance
+
+- **Service Role Bypass**: The backend uses Supabase Service Role keys to manage data securely without complex RLS for webhooks.
+- **Hydration Resilience**: Client-side components are protected against browser extension injection (Bitdefender, Grammerly, etc.) using suppression headers for a stable UI.
+- **Atomic Components**: Pure Vanilla CSS implementation within Tailwind for exact spec adherence.
+
+---
+*Developed for Forest & Ray Dental Clinic.*
