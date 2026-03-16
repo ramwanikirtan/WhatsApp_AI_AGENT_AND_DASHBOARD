@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDashboard } from "./DashboardContext";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { Intent } from "@/lib/intents";
 import { Search } from "lucide-react";
 
 interface PatientSummary {
