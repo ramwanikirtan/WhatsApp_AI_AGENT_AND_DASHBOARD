@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
+import { Inter, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 
-const plexSans = IBM_Plex_Sans({ 
+const inter = Inter({ 
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-plex-sans',
+  variable: '--font-inter',
 });
 
 const plexMono = IBM_Plex_Mono({ 
@@ -26,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${plexSans.variable} ${plexMono.variable} font-sans antialiased bg-white text-gray-900 overflow-hidden`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${plexMono.variable} font-sans antialiased bg-slate-950 text-gray-900 overflow-hidden`} suppressHydrationWarning>
         {children}
       </body>
     </html>

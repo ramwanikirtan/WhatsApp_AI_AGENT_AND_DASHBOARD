@@ -87,16 +87,16 @@ export default function PatientDetail() {
 
   if (!selectedPhone || !stats) {
     return (
-      <div className="h-full flex items-center justify-center text-gray-400 px-4 text-center">
+      <div className="h-full flex items-center justify-center text-slate-400 px-4 text-center">
         <p className="text-sm">Select a patient on the left to see details here.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="p-4 border-b border-slate-200">
-        <h2 className="font-semibold text-[15px] tracking-tight text-gray-900">
+    <div className="flex flex-col h-full bg-slate-50">
+      <div className="p-4 border-b border-slate-100 bg-white">
+        <h2 className="font-semibold text-[14px] tracking-tight text-slate-900">
           Patient details
         </h2>
       </div>
@@ -104,13 +104,16 @@ export default function PatientDetail() {
       <div className="p-4 flex flex-col gap-6 overflow-y-auto">
         {/* Phone */}
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-[15px] text-gray-900">
+          <div className="text-[11px] font-medium text-slate-500 mb-1 uppercase tracking-wide">
+            WhatsApp number
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-white border border-slate-200 px-3 py-1.5 shadow-sm">
+            <span className="font-mono text-[13px] text-slate-900">
               {stats.phone}
             </span>
             <button 
               onClick={handleCopy}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
               title="Copy to clipboard"
             >
               <Copy className="h-3.5 w-3.5" />
@@ -120,37 +123,37 @@ export default function PatientDetail() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <div className="font-bold text-[18px] text-gray-900">
+          <div className="rounded-xl bg-white border border-slate-100 px-3 py-3 shadow-sm">
+            <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
+              Messages
+            </div>
+            <div className="text-[20px] font-semibold text-slate-900">
               {stats.totalMessages}
             </div>
-            <div className="text-[12px] text-gray-500">
-              messages
-            </div>
           </div>
-          <div>
-            <div className="font-mono text-[13px] text-gray-900 mt-1 truncate">
-              {formatDistanceToNow(parseISO(stats.lastActive), { addSuffix: true })}
+          <div className="rounded-xl bg-white border border-slate-100 px-3 py-3 shadow-sm">
+            <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
+              Last active
             </div>
-            <div className="text-[12px] text-gray-500">
-              last active
+            <div className="font-mono text-[13px] text-slate-900 truncate">
+              {formatDistanceToNow(parseISO(stats.lastActive), { addSuffix: true })}
             </div>
           </div>
         </div>
 
         <div>
-          <div className="font-mono text-[13px] text-gray-900">
-            {format(parseISO(stats.firstContact), "dd MMMM yyyy, HH:mm")}
+          <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
+            First contact
           </div>
-          <div className="text-[12px] text-gray-500">
-            first contact
+          <div className="font-mono text-[13px] text-slate-900">
+            {format(parseISO(stats.firstContact), "dd MMMM yyyy, HH:mm")}
           </div>
         </div>
 
         {/* Intents */}
         {stats.intents.length > 0 && (
           <div>
-            <div className="text-[12px] text-gray-500 mb-2">
+            <div className="text-[11px] text-slate-500 mb-2 font-medium tracking-wide">
               INTENTS SEEN
             </div>
             <div className="flex flex-wrap gap-2">
@@ -159,8 +162,12 @@ export default function PatientDetail() {
                 return (
                   <span 
                     key={intent}
-                    className="text-[11px] px-2 py-1 rounded-[4px] border uppercase"
-                    style={{ borderColor: color, color: color }}
+                    className="text-[11px] px-2.5 py-1 rounded-full border uppercase"
+                    style={{
+                      borderColor: color,
+                      color: color,
+                      backgroundColor: `${color}20`,
+                    }}
                   >
                     {intent.replace('_', ' ')}
                   </span>
@@ -175,7 +182,7 @@ export default function PatientDetail() {
           <button
             onClick={handleSendBooking}
             disabled={sending}
-            className="w-full flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white py-2 px-4 rounded-[4px] font-medium text-[13px] transition-colors disabled:opacity-70"
+            className="w-full flex items-center justify-center gap-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white py-2.5 px-4 rounded-xl font-medium text-[13px] transition-colors disabled:opacity-70 shadow-sm"
           >
             <Calendar className="h-4 w-4" />
             {sending ? "Sending..." : "Send booking link"}
