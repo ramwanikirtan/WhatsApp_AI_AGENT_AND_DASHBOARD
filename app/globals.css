@@ -6,7 +6,12 @@
   body {
     color: #111827;
     background-color: #ffffff;
+    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   }
+}
+
+.font-heading {
+  font-family: var(--font-syne), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 /* Custom scrollbar for thread view and lists */

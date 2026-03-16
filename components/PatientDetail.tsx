@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDashboard } from "./DashboardContext";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
-import { Intent, INTENT_COLORS } from "@/lib/intents";
+import { Intent } from "@/lib/intents";
 import { Copy, Calendar } from "lucide-react";
 import { Message } from "@/lib/supabase";
 
@@ -94,10 +94,10 @@ export default function PatientDetail() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-slate-50">
-      <div className="p-4 border-b border-slate-100 bg-white">
-        <h2 className="font-semibold text-[14px] tracking-tight text-slate-900">
-          Patient details
+    <div className="flex flex-col h-full bg-white">
+      <div className="p-4 bg-white shadow-sm">
+        <h2 className="font-heading font-semibold text-[16px] tracking-tight text-slate-900">
+          Patient Details
         </h2>
       </div>
 
@@ -107,13 +107,13 @@ export default function PatientDetail() {
           <div className="text-[11px] font-medium text-slate-500 mb-1 uppercase tracking-wide">
             WhatsApp number
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-white border border-slate-200 px-3 py-1.5 shadow-sm">
-            <span className="font-mono text-[13px] text-slate-900">
+          <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5">
+            <span className="text-[13px] font-semibold text-slate-900">
               {stats.phone}
             </span>
             <button 
               onClick={handleCopy}
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-slate-500 hover:text-slate-700 transition-colors duration-150 ease-in-out"
               title="Copy to clipboard"
             >
               <Copy className="h-3.5 w-3.5" />
@@ -122,8 +122,8 @@ export default function PatientDetail() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl bg-white border border-slate-100 px-3 py-3 shadow-sm">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-xl bg-slate-50 px-3 py-3 shadow-sm">
             <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
               Messages
             </div>
@@ -131,11 +131,11 @@ export default function PatientDetail() {
               {stats.totalMessages}
             </div>
           </div>
-          <div className="rounded-xl bg-white border border-slate-100 px-3 py-3 shadow-sm">
+          <div className="rounded-xl bg-slate-50 px-3 py-3 shadow-sm">
             <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
               Last active
             </div>
-            <div className="font-mono text-[13px] text-slate-900 truncate">
+            <div className="text-[13px] font-semibold text-slate-900 truncate">
               {formatDistanceToNow(parseISO(stats.lastActive), { addSuffix: true })}
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function PatientDetail() {
           <div className="text-[11px] font-medium text-slate-500 uppercase tracking-wide mb-1">
             First contact
           </div>
-          <div className="font-mono text-[13px] text-slate-900">
+          <div className="text-[13px] font-semibold text-slate-900">
             {format(parseISO(stats.firstContact), "dd MMMM yyyy, HH:mm")}
           </div>
         </div>
@@ -154,24 +154,24 @@ export default function PatientDetail() {
         {stats.intents.length > 0 && (
           <div>
             <div className="text-[11px] text-slate-500 mb-2 font-medium tracking-wide">
-              INTENTS SEEN
+              Intents seen
             </div>
             <div className="flex flex-wrap gap-2">
               {stats.intents.map((intent) => {
-                const color = INTENT_COLORS[intent] || INTENT_COLORS.general;
+                const isBooking = intent === "booking_request";
+                const color = isBooking ? "#0D9488" : "#9CA3AF";
                 return (
                   <span 
                     key={intent}
-                    className="text-[11px] px-2.5 py-1 rounded-full border uppercase"
+                    className="text-[10px] px-2.5 py-1 rounded-full uppercase font-semibold"
                     style={{
-                      borderColor: color,
                       color: color,
-                      backgroundColor: `${color}20`,
+                      backgroundColor: isBooking ? "#0D948820" : "#9CA3AF20",
                     }}
                   >
-                    {intent.replace('_', ' ')}
+                    {intent.replace("_", " ")}
                   </span>
-                )
+                );
               })}
             </div>
           </div>
@@ -182,7 +182,7 @@ export default function PatientDetail() {
           <button
             onClick={handleSendBooking}
             disabled={sending}
-            className="w-full flex items-center justify-center gap-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white py-2.5 px-4 rounded-xl font-medium text-[13px] transition-colors disabled:opacity-70 shadow-sm"
+            className="w-full flex items-center justify-center gap-2 bg-[#0D9488] hover:bg-[#0F766E] text-white py-2.5 px-4 rounded-[10px] font-medium text-[13px] transition-all duration-150 ease-in-out disabled:opacity-70 shadow-sm"
           >
             <Calendar className="h-4 w-4" />
             {sending ? "Sending..." : "Send booking link"}

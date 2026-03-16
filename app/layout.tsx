@@ -1,16 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter, IBM_Plex_Mono } from 'next/font/google';
+import { DM_Sans, Syne } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ 
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-dm-sans',
 });
 
-const plexMono = IBM_Plex_Mono({ 
+const syne = Syne({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-plex-mono',
+  variable: '--font-syne',
 });
 
 export const metadata: Metadata = {
@@ -25,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${plexMono.variable} font-sans antialiased bg-slate-950 text-gray-900 overflow-hidden`} suppressHydrationWarning>
+      <body className={`${dmSans.variable} ${syne.variable} font-sans antialiased bg-slate-950 text-gray-900 overflow-hidden`} suppressHydrationWarning>
         {children}
       </body>
     </html>

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useDashboard } from "./DashboardContext";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { Intent, INTENT_COLORS } from "@/lib/intents";
 import { Search } from "lucide-react";
 
 interface PatientSummary {
@@ -47,20 +46,25 @@ export default function ConversationList() {
 
   return (
     <div className="flex flex-col h-full text-slate-100">
-      <div className="p-4 border-b border-white/5">
+      <div className="p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-sm tracking-tight text-slate-50">Conversations</h2>
+          <div>
+            <div className="font-heading text-[15px] tracking-tight text-white">
+              Forest & Ray
+            </div>
+            <div className="text-[11px] text-slate-400">Conversations</div>
+          </div>
           <span className="bg-white/10 text-slate-100 text-[11px] px-2 py-1 rounded-full">
             {patients.length}
           </span>
         </div>
-        
+
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-white/70" />
           <input
             type="text"
             placeholder="Search by phone number..."
-            className="w-full pl-10 pr-3 py-2.5 bg-slate-900/40 border border-white/10 rounded-full outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent placeholder:text-slate-400 text-xs text-slate-100 transition-colors"
+            className="w-full pl-10 pr-3 py-2.5 bg-[#1F2937] rounded-full outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent placeholder:text-white/70 text-xs text-white transition-all duration-150 ease-in-out"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -85,51 +89,47 @@ export default function ConversationList() {
             No conversations yet
           </div>
         ) : (
-          filteredPatients.map((p) => {
-            const isSelected = selectedPhone === p.phone;
-            const intentColor = p.lastIntent ? INTENT_COLORS[p.lastIntent] : INTENT_COLORS.general;
-            const initials = p.phone.replace('+', '').slice(-2) || "PT";
+          <div className="flex flex-col gap-2 px-2 pb-3">
+            {filteredPatients.map((p) => {
+              const isSelected = selectedPhone === p.phone;
+              const initials = p.phone.replace("+", "").slice(-2) || "PT";
 
-            return (
-              <button
-                key={p.phone}
-                onClick={() => setSelectedPhone(p.phone)}
-                className={`w-full text-left px-4 py-3 border-b border-white/5 transition-colors flex items-start gap-3 relative ${
-                  isSelected
-                    ? "bg-white/5 border-l-[3px] border-l-[#6366F1]"
-                    : "hover:bg-white/5 border-l-[3px] border-l-transparent"
-                }`}
-              >
-                <div className="relative shrink-0 mt-0.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-[11px] font-medium text-slate-50">
-                    {initials}
+              return (
+                <button
+                  key={p.phone}
+                  onClick={() => setSelectedPhone(p.phone)}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-150 ease-in-out flex items-start gap-3 relative ${
+                    isSelected
+                      ? "bg-[#1F2937] border-l-[3px] border-l-[#0D9488]"
+                      : "hover:bg-[#1F2937] border-l-[3px] border-l-transparent"
+                  }`}
+                >
+                  <div className="relative shrink-0 mt-0.5">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0D9488] text-[11px] font-semibold text-white">
+                      {initials}
+                    </div>
                   </div>
-                  <span
-                    className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-[#0F172A]"
-                    style={{ backgroundColor: intentColor }}
-                    title={p.lastIntent || "general"}
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-baseline mb-1">
-                    <span className="font-mono text-[13px] font-semibold text-slate-50 truncate pr-2">
-                      {p.phone}
-                    </span>
-                    <span className="font-mono text-[11px] text-slate-400 shrink-0">
-                      {formatDistanceToNow(parseISO(p.lastMessageTime), { addSuffix: true })
-                        .replace('about ', '')
-                        .replace(' minutes', 'm')
-                        .replace(' hours', 'h')
-                        .replace(' days', 'd')}
-                    </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <span className="text-[13px] font-semibold text-white truncate pr-2">
+                        {p.phone}
+                      </span>
+                      <span className="text-[11px] text-slate-400 shrink-0">
+                        {formatDistanceToNow(parseISO(p.lastMessageTime), { addSuffix: true })
+                          .replace("about ", "")
+                          .replace(" minutes", "m")
+                          .replace(" hours", "h")
+                          .replace(" days", "d")}
+                      </span>
+                    </div>
+                    <p className="text-[12px] text-slate-300 truncate leading-snug">
+                      {p.lastMessageContent}
+                    </p>
                   </div>
-                  <p className="text-[12px] text-slate-300 truncate leading-snug">
-                    {p.lastMessageContent}
-                  </p>
-                </div>
-              </button>
-            );
-          })
+                </button>
+              );
+            })}
+          </div>
         )}
       </div>
     </div>

@@ -5,7 +5,7 @@ import { useDashboard } from "./DashboardContext";
 import MessageBubble from "./MessageBubble";
 import { Message } from "@/lib/supabase";
 import { format, parseISO } from "date-fns";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Paperclip, Smile } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function ThreadView() {
@@ -87,8 +87,8 @@ export default function ThreadView() {
 
   if (!selectedPhone) {
     return (
-      <div className="h-full flex flex-col items-center justify-center bg-white text-slate-400">
-        <MessageSquare className="h-12 w-12 text-slate-200 mb-4" />
+      <div className="h-full flex flex-col items-center justify-center bg-[#F7F8FA] text-slate-400">
+        <MessageSquare className="h-12 w-12 text-slate-300 mb-4" />
         <p className="text-sm">Select a conversation</p>
       </div>
     );
@@ -97,10 +97,10 @@ export default function ThreadView() {
   const firstContact = messages.length > 0 ? messages[0].created_at : null;
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-[#F7F8FA]">
       {/* Thread Header */}
-      <div className="p-4 border-b border-slate-100 bg-white sticky top-0 z-10">
-        <h2 className="font-mono font-semibold text-[15px] text-slate-900">
+      <div className="p-4 bg-white sticky top-0 z-10 shadow-sm">
+        <h2 className="font-heading font-semibold text-[16px] text-slate-900">
           {selectedPhone}
         </h2>
         <div className="text-[11px] text-slate-500 mt-1">
@@ -113,11 +113,11 @@ export default function ThreadView() {
       {/* Message Area */}
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth bg-white"
+        className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth bg-[#F7F8FA]"
       >
         {loading ? (
           <div className="h-full flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-slate-200 border-t-[#6366F1] rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-2 border-slate-200 border-t-[#0D9488] rounded-full animate-spin"></div>
           </div>
         ) : (
           <div className="flex flex-col gap-1 pb-6">
@@ -143,19 +143,35 @@ export default function ThreadView() {
       {/* Composer */}
       <form
         onSubmit={handleSend}
-        className="border-t border-slate-100 bg-white px-4 py-3"
+        className="bg-white px-4 py-3 shadow-[0_-6px_16px_rgba(15,23,42,0.06)]"
       >
         <div className="flex items-end gap-2">
-          <textarea
-            rows={1}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
-          />
+          <div className="flex-1 flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-sm">
+            <button
+              type="button"
+              className="text-slate-400 hover:text-slate-600 transition-colors duration-150 ease-in-out"
+              aria-label="Attach file"
+            >
+              <Paperclip className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              className="text-slate-400 hover:text-slate-600 transition-colors duration-150 ease-in-out"
+              aria-label="Add emoji"
+            >
+              <Smile className="h-4 w-4" />
+            </button>
+            <textarea
+              rows={1}
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder="Type a message..."
+              className="flex-1 resize-none bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+            />
+          </div>
           <button
             type="submit"
-            className="inline-flex items-center justify-center rounded-xl bg-[#6366F1] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#4F46E5] disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-xl bg-[#0D9488] px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-150 ease-in-out hover:bg-[#0F766E] disabled:opacity-60"
             disabled={!draft.trim()}
           >
             Send
